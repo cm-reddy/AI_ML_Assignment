@@ -5,6 +5,7 @@ from sklearn.tree import DecisionTreeRegressor
 from sklearn.metrics import mean_squared_error, r2_score
 import mlflow
 import mlflow.sklearn
+from mlflow.models.signature import infer_signature
 
 # Load preprocessed data
 df = pd.read_csv("data/housing.csv")
@@ -31,13 +32,19 @@ def train_and_log_model(model, model_name):
         mlflow.log_metric("mse", mse)
         mlflow.log_metric("r2_score", r2)
 
-        # Log model itself
-        mlflow.sklearn.log_model(model, "model")
+        # Infer signature and input example
+        signature = infer_signature(X_test, preds)
+        input_example = X_test.head(2)
+
+        # Log model with input example and signature
+        mlflow.sklearn.log_model(
+            sk_model=model,
+            artifact_path="model",
+            input_example=input_example,
+            signature=signature
+        )
 
         print(f"✅ {model_name} | MSE: {mse:.3f} | R2 Score: {r2:.3f}")
-
-# Enable optional auto-logging
-# mlflow.sklearn.autolog()
 
 # Train and log 2 models
 train_and_log_model(LinearRegression(), "LinearRegression")
