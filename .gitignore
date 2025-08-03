@@ -2,5 +2,6 @@ __pycache__/
 *.pyc
 *.pkl
 mlruns/
-data/
+- data/
++ data/housing.csv
 
