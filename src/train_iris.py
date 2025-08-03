@@ -7,6 +7,8 @@ from sklearn.metrics import accuracy_score, f1_score
 import mlflow
 from mlflow.models.signature import infer_signature
 from mlflow.tracking import MlflowClient
+import joblib
+import os
 
 # Load data
 data = load_iris(as_frame=True)
@@ -14,10 +16,12 @@ df = data.frame
 X = df.drop("target", axis=1)
 y = df["target"]
 
-# Split
 X_train, X_test, y_train, y_test = train_test_split(
     X, y, test_size=0.5, random_state=42
 )
+
+# Create models directory if not exists
+os.makedirs("models", exist_ok=True)
 
 def train_and_log_model(model, model_name):
     with mlflow.start_run(run_name=model_name) as run:
@@ -41,15 +45,17 @@ def train_and_log_model(model, model_name):
             signature=signature
         )
 
-        print(f"✅ {model_name} | Accuracy: {acc:.3f} | F1 Score: {f1:.3f}")
+        # Save locally
+        joblib.dump(model, f"models/{model_name}.pkl")
 
-        # Register model (optional: only register best manually later)
-        if model_name == "RandomForest":  # assuming it's best
+        print(f"✅ {model_name} | Accuracy: {acc:.3f} | F1 Score: {f1:.3f} | Saved to models/{model_name}.pkl")
+
+        # Optional registration
+        if model_name == "RandomForest":
             mlflow.register_model(
                 model_uri=f"runs:/{run.info.run_id}/model",
                 name="IrisClassifierModel"
             )
 
-# Train 2 models
 train_and_log_model(LogisticRegression(max_iter=200), "LogisticRegression")
 train_and_log_model(RandomForestClassifier(n_estimators=100), "RandomForest")
