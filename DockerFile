@@ -8,7 +8,12 @@ WORKDIR /app
 COPY . .
 
 # Create log directory inside container
-RUN mkdir -p irislogs
+
+#if you want to run models on iris dataset
+# RUN mkdir -p irislogs
+
+#if you want to run models on housing dataset
+RUN mkdir -p housinglogs
 
 # Install dependencies
 RUN pip install --no-cache-dir -r requirements.txt
@@ -17,4 +22,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 EXPOSE 8000
 
 # Command to run the app
-CMD ["uvicorn", "api.main:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["uvicorn", "api.housing_api:app", "--host", "0.0.0.0", "--port", "8000"]
+
+# for the iris dataset use
+# CMD ["uvicorn", "api.main:app", "--host", "0.0.0.0", "--port", "8000"]
