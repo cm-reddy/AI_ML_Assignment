@@ -2,11 +2,18 @@ from fastapi import FastAPI
 from pydantic import BaseModel
 import pandas as pd
 import mlflow.pyfunc
+import logging
+from datetime import datetime
+import sqlite3
+import joblib  # If using local .pkl file
 
 app = FastAPI()
 
-model_uri = "runs:/4bf65a1a6fdd4d9fb80d35b460d5d721/model"
-model = mlflow.pyfunc.load_model(model_uri)
+# model_uri = "runs:/4bf65a1a6fdd4d9fb80d35b460d5d721/model"
+# model = mlflow.pyfunc.load_model(model_uri)
+
+model = joblib.load("models/DecisionTree.pkl")
+
 
 class HousingRequest(BaseModel):
     total_rooms: float
