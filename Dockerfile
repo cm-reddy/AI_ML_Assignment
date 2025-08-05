@@ -9,6 +9,7 @@ COPY . .
 
 # Create log directory inside container
 
+# Added comment
 #if you want to run models on iris dataset
 # RUN mkdir -p irislogs
 
