@@ -16,7 +16,8 @@ COPY . .
 RUN mkdir -p housinglogs
 
 # Install dependencies
-RUN pip install --no-cache-dir -r requirements.txt
+# RUN pip install --no-cache-dir -r requirements.txt
+RUN apt-get update && apt-get install -y sqlite3 gcc libffi-dev && pip install --no-cache-dir -r requirements.txt && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Expose FastAPI port
 EXPOSE 8000
