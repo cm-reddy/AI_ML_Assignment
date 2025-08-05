@@ -13,7 +13,8 @@ COPY . .
 #if you want to run models on iris dataset
 # RUN mkdir -p irislogs
 
-#if you want to run models on housing dataset
+#if you want to run models on housing dataset 
+# Add comment for testing
 RUN mkdir -p housinglogs
 
 # Install dependencies
