@@ -44,3 +44,8 @@ jobs:
         run: |
           docker build -t ${{ secrets.DOCKER_USERNAME }}/mlops-app:latest .
           docker push ${{ secrets.DOCKER_USERNAME }}/mlops-app:latest
+
+      - name: Pull and Run Docker Container
+        run: |
+          docker pull ${{ secrets.DOCKER_USERNAME }}/mlops-app:latest
+          docker run -d --name mlops-test -p 8000:8000 ${{ secrets.DOCKER_USERNAME }}/mlops-app:latest
