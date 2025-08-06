@@ -48,4 +48,4 @@ jobs:
       - name: Pull and Run Docker Container
         run: |
           docker pull ${{ secrets.DOCKER_USERNAME }}/mlops-app:latest
-          docker run -d --name mlops-app -p 8000:8000 ${{ secrets.DOCKER_USERNAME }}/mlops-app:latest
+          docker run -d -p 8000:8000 ${{ secrets.DOCKER_USERNAME }}/mlops-app:latest
