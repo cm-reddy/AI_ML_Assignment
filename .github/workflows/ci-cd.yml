@@ -45,7 +45,13 @@ jobs:
           docker build -t ${{ secrets.DOCKER_USERNAME }}/mlops-app:latest .
           docker push ${{ secrets.DOCKER_USERNAME }}/mlops-app:latest
 
-      - name: Pull and Run Docker Container
+      - name: Run Docker Container for API testing
         run: |
-          docker pull ${{ secrets.DOCKER_USERNAME }}/mlops-app:latest
-          docker run -d -p 8000:8000 ${{ secrets.DOCKER_USERNAME }}/mlops-app:latest
+          docker run -d -p 8000:8000 --name mlops-app-test ${{ secrets.DOCKER_USERNAME }}/mlops-app:latest
+
+      - name: Wait for API to be ready
+        run: sleep 10
+
+      - name: Test the API endpoint
+        run: |
+         curl --fail http://localhost:8000/ || (echo "API Test Failed" && exit 1)
