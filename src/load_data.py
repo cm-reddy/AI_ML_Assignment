@@ -6,7 +6,7 @@ def load_and_save():
     # Load the data
     data = fetch_california_housing(as_frame=True)
     df = data.frame
-
+    
     # --- Preprocessing ---
     # Check and drop missing values (usually none in this dataset)
     df.dropna(inplace=True)
