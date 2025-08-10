@@ -2,9 +2,9 @@ name: CI/CD Pipeline
 
 on:
   push:
-    branches: [main]
+    branches: [gargeya]
   pull_request:
-    branches: [main]
+    branches: [gargeya]
 
 jobs:
   build-test-lint:
